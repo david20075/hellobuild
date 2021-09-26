@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import Home from './Screens/Home';
+import Login from './Screens/Auth/Login';
+import SignUp from './Screens/Auth/SignUp';
 
-function App() {
+
+export default function RouteMap() {
+  const isAuthenticate = ()=>{
+    const Allusers = JSON.parse(localStorage.getItem('users'));
+    return (Allusers && Allusers['currentUser']) ? <Home /> :(<Login />)
+   }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/"
+          
+          render={() => isAuthenticate()}
+          />
+             
+     
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
-export default App;
